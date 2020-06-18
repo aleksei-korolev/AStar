@@ -7,10 +7,10 @@ namespace Roy_T.AStar.Graphs
     {
         public Node(Position position)
         {
-            this.Incoming = new List<IEdge>(0);
-            this.Outgoing = new List<IEdge>(0);
+            Incoming = new List<IEdge>(0);
+            Outgoing = new List<IEdge>(0);
 
-            this.Position = position;
+            Position = position;
         }
 
         public IList<IEdge> Incoming { get; }
@@ -18,26 +18,26 @@ namespace Roy_T.AStar.Graphs
 
         public Position Position { get; }
 
-        internal void Connect(INode node, Velocity traversalVelocity)
+        public void Connect(INode node, Velocity traversalVelocity)
         {
-            var edge = new Edge(this, node, traversalVelocity);
-            this.Outgoing.Add(edge);
+            Edge edge = new Edge(this, node, traversalVelocity);
+            Outgoing.Add(edge);
             node.Incoming.Add(edge);
         }
 
-        internal void Disconnect(INode node)
+        public void Disconnect(INode node)
         {
-            for (var i = this.Outgoing.Count - 1; i >= 0; i--)
+            for (int i = Outgoing.Count - 1; i >= 0; i--)
             {
-                var edge = this.Outgoing[i];
+                IEdge edge = Outgoing[i];
                 if (edge.End == node)
                 {
-                    this.Outgoing.Remove(edge);
+                    Outgoing.Remove(edge);
                     node.Incoming.Remove(edge);
                 }
             }
         }
 
-        public override string ToString() => this.Position.ToString();
+        public override string ToString() => Position.ToString();
     }
 }
